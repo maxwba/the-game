@@ -1,10 +1,9 @@
-let context, controller, player, loop;
+let context, controller, player, loop, controller2, player2, loop2;
 
 context = document.querySelector("canvas").getContext("2d");
 
 context.canvas.height = 500;
 context.canvas.width = 1000;
-
 
 //Players
 player = {
@@ -17,6 +16,17 @@ player = {
   y_velocity: 0
 };
 
+player2 = {
+  height: 32,
+  jumping: true,
+  width: 32,
+  x: 900,
+  x_velocity: 0,
+  y: 0,
+  y_velocity: 0
+};
+
+//Controler P1
 controller = {
   left: false,
   right: false,
@@ -33,6 +43,28 @@ controller = {
         break;
       case 39: // right key
         controller.right = key_state;
+        break;
+    }
+  }
+};
+
+//Controler P2
+controller2 = {
+  left: false,
+  right: false,
+  up: false,
+  keyListener: function(event) {
+    let key_state = event.type == "keydown" ? true : false;
+
+    switch (event.keyCode) {
+      case 65: // left key
+        controller2.left = key_state;
+        break;
+      case 87: // up key
+        controller2.up = key_state;
+        break;
+      case 68: // right key
+        controller2.right = key_state;
         break;
     }
   }
@@ -73,12 +105,53 @@ loop = function() {
     player.x = 950;
   }
 
+  //P2
+  if (controller2.up && player2.jumping == false) {
+    player2.y_velocity -= 60;
+    player2.jumping = true;
+  }
+
+  if (controller2.left) {
+    player2.x_velocity -= 0.5;
+  }
+
+  if (controller2.right) {
+    player2.x_velocity += 0.5;
+  }
+
+  player2.y_velocity += 1.5; // gravity
+  player2.x += player2.x_velocity;
+  player2.y += player2.y_velocity;
+  player2.x_velocity *= 0.9; // friction
+  player2.y_velocity *= 0.9; // friction
+
+    // if player is falling below floor line
+    if (player2.y > 460 - 16 - 32) {
+        player2.jumping = false;
+        player2.y = 460 - 16 - 32;
+        player2.y_velocity = 0;
+      }
+
+  // if player 2 touch the left of the screen
+  if (player2.x < 2) {
+    player2.x = 0;
+  } else if (player2.x > 950) {
+    // if player 2 touch the right screen
+    player2.x = 950;
+  }
+
   context.fillStyle = "#202020";
   context.fillRect(0, 0, 1000, 500); // x, y, width, height
   context.fillStyle = "#ff0000"; // hex for red
   context.beginPath();
   context.rect(player.x, player.y, player.width, player.height);
   context.fill();
+
+  context.fillStyle = "#ff0000"; // hex for red
+  context.beginPath();
+  context.rect(player2.x, player2.y, player2.width, player2.height);
+  context.fill();
+
   context.strokeStyle = "#202830";
   context.lineWidth = 4;
   context.beginPath();
@@ -91,5 +164,7 @@ loop = function() {
 };
 
 window.addEventListener("keydown", controller.keyListener);
+window.addEventListener("keydown", controller2.keyListener);
 window.addEventListener("keyup", controller.keyListener);
+window.addEventListener("keyup", controller2.keyListener);
 window.requestAnimationFrame(loop);
