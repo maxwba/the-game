@@ -54,6 +54,7 @@ class EnergyBall {
     }
   }
 
+
   move() {
       if (this.side === "left") {
         this.x += 1;
@@ -326,12 +327,18 @@ loop = function() {
     }else {
       energyStore.splice(index,1)
     }
+    
+    if (element.x > player2.x && element.x < (player2.x + player2.width) 
+    && element.y > player2.y && element.y < (player2.y + player2.height)){
+      player2.health -= 10;
+      energyStore.splice(index,1)
+    }
+
   });
   frames += 1;
 
   // Player 2 power
   if (controller2.power) {
-    console.log("ta indo");
     if (frames % 5 === 0) {
       energyStore.push(new EnergyBall(player2.x, player2.y, player.x));
     }
