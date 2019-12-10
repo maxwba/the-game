@@ -40,15 +40,25 @@ player2 = {
   y_velocity: 0
 };
 
-// Power
+// Power class
 class EnergyBall {
-  constructor(x,y) {
-    this.x = x + 40; 
-    this.y = y + 10;
+  constructor(x,y,p2) {
+    this.p2 = p2
+    if (x < p2) {
+      this.x = x + 30; 
+      this.y = y + 10;
+    }else {
+      this.x = x - 30; 
+      this.y = y + 10;
+    }
   };
 
   move() {
-    this.x += 1;
+    if (this.x < this.p2) {
+      this.x += 1;
+    }else {
+      this.x -= 1; 
+    }
   };
 
   draw() {
@@ -57,7 +67,7 @@ class EnergyBall {
   };
 
   update() {
-    this.x = player.x + 40
+    this.p2 = player.x - 40
     this.y = player.y + 10
   }
 };
@@ -93,7 +103,7 @@ controller2 = {
   up: false,
   power: false,
   keyListener: function(event) {
-    let key_state = event.type == "keydown" ? true : false;
+    let key_state = event.type == "keydown";
 
     switch (event.keyCode) {
       case 37: // left key
@@ -105,6 +115,8 @@ controller2 = {
       case 39: // right key
         controller2.right = key_state;
         break;
+      case 188: //? key
+      controller2.power = key_state
     }
   }
 };
@@ -208,14 +220,25 @@ loop = function() {
 
   //Player 1
   let drawPlayer1 = () => {
-    playerImg.src = "../img/Goku.png";
-    context.drawImage(
-      playerImg,
-      player.x,
-      player.y,
-      player.width,
-      player.height
-    );
+    if (player.x < player2.x) {
+      playerImg.src = "../img/Goku.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }else {
+      playerImg.src = "../img/Goku_revert.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }
   };
   drawPlayer1();
 
@@ -232,18 +255,32 @@ loop = function() {
   };
   drawPlayer2();
 
-  //Player power
+  //Player 1 power
   if (controller.power) {
     if (frames % 5 === 0) {
-      energyStore.push(new EnergyBall(player.x,player.y))
+      energyStore.push(new EnergyBall(player.x,player.y,player2.x))
     }
   }
-  
   energyStore.forEach(element => {
     element.draw()
     element.move()
   });
   frames += 1;
+
+
+  // Player 2 power
+  if (controller2.power) {
+    console.log('ta indo')
+    if (frames % 5 === 0) {
+      energyStore.push(new EnergyBall(player2.x,player2.y,player.x))
+    }
+  }
+  energyStore.forEach(element => {
+    element.draw()
+    element.move()
+  });
+  frames += 1;
+
   // call update when the browser is ready to draw again
   window.requestAnimationFrame(loop);
 };
