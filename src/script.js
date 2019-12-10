@@ -252,6 +252,40 @@ loop = function() {
       );
     }
 
+    if (controller.power && player.x > player2.x) {
+      playerImg.src = "../img/Goku_power-left.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }
+
+    if (controller.right && player.x < player2.x) {
+      playerImg.src = "../img/Goku_right.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }
+
+    if (controller.left && player.x < player2.x) {
+      playerImg.src = "../img/Goku_left.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }
+
+
   };
   drawPlayer1();
 
