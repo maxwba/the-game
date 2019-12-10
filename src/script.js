@@ -44,21 +44,22 @@ player2 = {
 class EnergyBall {
   constructor(x, y, p2) {
     this.p2 = p2;
+    this.y = y + 10;
     if (x < p2) {
       this.x = x + 30;
-      this.y = y + 10;
+      this.side = "left";
     } else {
       this.x = x - 30;
-      this.y = y + 10;
+      this.side = "right";
     }
   }
 
   move() {
-    if (this.x < this.p2) {
-      this.x += 1;
-    } else {
-      this.x -= 1;
-    }
+      if (this.side === "left") {
+        this.x += 1;
+      } else {
+        this.x -= 1;
+      }
   }
 
   draw() {
@@ -239,6 +240,18 @@ loop = function() {
         player.height
       );
     }
+
+    if (controller.power && player.x < player2.x) {
+      playerImg.src = "../img/Goku_power-right.png";
+      context.drawImage(
+        playerImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+    }
+
   };
   drawPlayer1();
 
@@ -253,7 +266,7 @@ loop = function() {
         player2.width,
         player2.height
       );
-    }else {
+    } else {
       player2Img.src = "../img/Frezza_reverse.png";
       context.drawImage(
         player2Img,
@@ -261,7 +274,7 @@ loop = function() {
         player2.y,
         player2.width,
         player2.height
-      )
+      );
     }
   };
   drawPlayer2();
@@ -272,9 +285,13 @@ loop = function() {
       energyStore.push(new EnergyBall(player.x, player.y, player2.x));
     }
   }
-  energyStore.forEach(element => {
+  energyStore.forEach((element,index) => {
     element.draw();
-    element.move();
+    if (element.x > areaLeftX && element.x < areaRightX + 91) {
+      element.move();
+    }else {
+      energyStore.splice(index,1)
+    }
   });
   frames += 1;
 
