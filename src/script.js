@@ -42,35 +42,35 @@ player2 = {
 
 // Power class
 class EnergyBall {
-  constructor(x,y,p2) {
-    this.p2 = p2
+  constructor(x, y, p2) {
+    this.p2 = p2;
     if (x < p2) {
-      this.x = x + 30; 
+      this.x = x + 30;
       this.y = y + 10;
-    }else {
-      this.x = x - 30; 
+    } else {
+      this.x = x - 30;
       this.y = y + 10;
     }
-  };
+  }
 
   move() {
     if (this.x < this.p2) {
       this.x += 1;
-    }else {
-      this.x -= 1; 
+    } else {
+      this.x -= 1;
     }
-  };
+  }
 
   draw() {
-    context.fillStyle = 'Blue'
-    context.fillRect(this.x,this.y,20,20)
-  };
+    context.fillStyle = "Blue";
+    context.fillRect(this.x, this.y, 20, 20);
+  }
 
   update() {
-    this.p2 = player.x - 40
-    this.y = player.y + 10
+    this.p2 = player.x - 40;
+    this.y = player.y + 10;
   }
-};
+}
 
 //Controler P1
 controller = {
@@ -116,7 +116,7 @@ controller2 = {
         controller2.right = key_state;
         break;
       case 188: //? key
-      controller2.power = key_state
+        controller2.power = key_state;
     }
   }
 };
@@ -229,7 +229,7 @@ loop = function() {
         player.width,
         player.height
       );
-    }else {
+    } else {
       playerImg.src = "../img/Goku_revert.png";
       context.drawImage(
         playerImg,
@@ -244,40 +244,50 @@ loop = function() {
 
   //Player 2
   let drawPlayer2 = () => {
-    player2Img.src = "../img/Frezza.png";
-    context.drawImage(
-      player2Img,
-      player2.x,
-      player2.y,
-      player2.width,
-      player2.height
-    );
+    if (player2.x > player.x) {
+      player2Img.src = "../img/Frezza.png";
+      context.drawImage(
+        player2Img,
+        player2.x,
+        player2.y,
+        player2.width,
+        player2.height
+      );
+    }else {
+      player2Img.src = "../img/Frezza_reverse.png";
+      context.drawImage(
+        player2Img,
+        player2.x,
+        player2.y,
+        player2.width,
+        player2.height
+      )
+    }
   };
   drawPlayer2();
 
   //Player 1 power
   if (controller.power) {
     if (frames % 5 === 0) {
-      energyStore.push(new EnergyBall(player.x,player.y,player2.x))
+      energyStore.push(new EnergyBall(player.x, player.y, player2.x));
     }
   }
   energyStore.forEach(element => {
-    element.draw()
-    element.move()
+    element.draw();
+    element.move();
   });
   frames += 1;
 
-
   // Player 2 power
   if (controller2.power) {
-    console.log('ta indo')
+    console.log("ta indo");
     if (frames % 5 === 0) {
-      energyStore.push(new EnergyBall(player2.x,player2.y,player.x))
+      energyStore.push(new EnergyBall(player2.x, player2.y, player.x));
     }
   }
   energyStore.forEach(element => {
-    element.draw()
-    element.move()
+    element.draw();
+    element.move();
   });
   frames += 1;
 
