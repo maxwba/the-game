@@ -5,8 +5,11 @@ let playerImg = new Image();
 let player2Img = new Image();
 let avatarPlayerImg = new Image();
 let avatarPlayer2Img = new Image();
-let energyStore = [];
+let energyStoreGoku = [];
+let energyStoreFrezza = [];
 let frames = 0;
+let frezzaAtack = false;
+let gokuAttack = false;
 
 // Screen sizes
 context = document.querySelector("canvas").getContext("2d");
@@ -54,13 +57,12 @@ class EnergyBall {
     }
   }
 
-
   move() {
-      if (this.side === "left") {
-        this.x += 1;
-      } else {
-        this.x -= 1;
-      }
+    if (this.side === "left") {
+      this.x += 1;
+    } else {
+      this.x -= 1;
+    }
   }
 
   draw() {
@@ -285,8 +287,6 @@ loop = function() {
         player.height
       );
     }
-
-
   };
   drawPlayer1();
 
@@ -317,36 +317,66 @@ loop = function() {
   //Player 1 power
   if (controller.power) {
     if (frames % 5 === 0) {
-      energyStore.push(new EnergyBall(player.x, player.y, player2.x));
+      energyStoreGoku.push(new EnergyBall(player.x, player.y, player2.x));
+      gokuAttack = true;
     }
   }
-  energyStore.forEach((element,index) => {
-    element.draw();
-    if (element.x > areaLeftX && element.x < areaRightX + 91) {
-      element.move();
-    }else {
-      energyStore.splice(index,1)
-    }
-    
-    if (element.x > player2.x && element.x < (player2.x + player2.width) 
-    && element.y > player2.y && element.y < (player2.y + player2.height)){
-      player2.health -= 10;
-      energyStore.splice(index,1)
-    }
-
-  });
-  frames += 1;
 
   // Player 2 power
   if (controller2.power) {
     if (frames % 5 === 0) {
-      energyStore.push(new EnergyBall(player2.x, player2.y, player.x));
+      energyStoreFrezza.push(new EnergyBall(player2.x, player2.y, player.x));
+      frezzaAtack = true;
     }
   }
-  energyStore.forEach(element => {
+
+  energyStoreGoku.forEach((element, index) => {
     element.draw();
-    element.move();
+    if (element.x > areaLeftX && element.x < areaRightX + 91) {
+      element.move();
+    } else {
+      energyStoreGoku.splice(index, 1);
+    }
+
+    if (
+      gokuAttack &&
+      element.x > player2.x &&
+      element.x < player2.x + player2.width &&
+      element.y > player2.y &&
+      element.y < player2.y + player2.height
+    ) {
+      player2.health -= 10;
+      energyStoreGoku.splice(index, 1);
+      if (energyStoreGoku.length == 0) {
+        gokuAttack = false;
+      }
+    }
   });
+
+  // Freeza attack
+  energyStoreFrezza.forEach((element, index) => {
+    element.draw();
+    if (element.x > areaLeftX && element.x < areaRightX + 91) {
+      element.move();
+    } else {
+      energyStoreFrezza.splice(index, 1);
+    }
+
+    if (
+      frezzaAtack &&
+      element.x > player.x &&
+      element.x < player.x + player.width &&
+      element.y > player.y &&
+      element.y < player.y + player.height
+    ) {
+      player.health -= 10;
+      energyStoreFrezza.splice(index, 1);
+      if (energyStoreFrezza.length == 0) {
+        frezzaAtack = false;
+      }
+    }
+  });
+
   frames += 1;
 
   // call update when the browser is ready to draw again
