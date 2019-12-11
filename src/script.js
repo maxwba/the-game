@@ -305,7 +305,7 @@ let map = () => {
 
 //Player 1
 let drawPlayer1 = () => {
-  if (player.x < player2.x) {
+  if (player.x < player2.x && !controller.right && !controller.left) {
     playerImg.src = "img/Goku.png";
     context.drawImage(
       playerImg,
@@ -314,7 +314,8 @@ let drawPlayer1 = () => {
       player.width,
       player.height
     );
-  } else {
+  } else if (player.x > player2.x && !controller.right && !controller.left) {
+    player.stopped = true;
     playerImg.src = "img/Goku_revert.png";
     context.drawImage(
       playerImg,
@@ -334,9 +335,7 @@ let drawPlayer1 = () => {
       player.width,
       player.height
     );
-  }
-
-  if (controller.power && player.x > player2.x) {
+  } else if (controller.power && player.x > player2.x) {
     playerImg.src = "img/Goku_power-left.png";
     context.drawImage(
       playerImg,
@@ -356,10 +355,28 @@ let drawPlayer1 = () => {
       player.width,
       player.height
     );
+  } else if (controller.left && player.x < player2.x) {
+    playerImg.src = "img/Goku_left.png";
+    context.drawImage(
+      playerImg,
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
   }
 
-  if (controller.left && player.x < player2.x) {
-    playerImg.src = "img/Goku_left.png";
+  if (controller.right && player.x > player2.x) {
+    playerImg.src = "img/GR_reverse.png";
+    context.drawImage(
+      playerImg,
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
+  } else if (controller.left && player.x > player2.x) {
+    playerImg.src = "img/GL_reverse.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -372,16 +389,7 @@ let drawPlayer1 = () => {
 
 //Player 2
 let drawPlayer2 = () => {
-  if (player2.x > player.x) {
-    player2Img.src = "img/Frezza.png";
-    context.drawImage(
-      player2Img,
-      player2.x,
-      player2.y,
-      player2.width,
-      player2.height
-    );
-  } else {
+  if (player2.x < player.x && !controller2.right && !controller2.left) {
     player2Img.src = "img/Frezza_reverse.png";
     context.drawImage(
       player2Img,
@@ -390,7 +398,77 @@ let drawPlayer2 = () => {
       player2.width,
       player2.height
     );
+  } else if (player2.x > player.x && !controller2.right && !controller2.left){
+    player2Img.src = "img/Frezza.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
   }
+
+  if (controller2.power && player2.x < player.x) {
+    player2Img.src = "img/Frezza_power-right.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  } else if (controller2.power && player2.x > player.x) {
+    player2Img.src = "img/Frezza_power-left.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  }
+
+  if (controller2.right && player2.x < player.x) {
+    player2Img.src = "img/Frezza_right.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  } else if (controller2.left && player2.x < player.x) {
+    player2Img.src = "img/Frezza_left.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  }
+
+  if (controller2.right && player2.x > player.x) {
+    player2Img.src = "img/FR_reverse.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  } else if (controller2.left && player2.x > player.x) {
+    player2Img.src = "img/FL_reverse.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  }
+
 };
 
 let gameOver = () => {
