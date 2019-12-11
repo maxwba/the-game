@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: solid;
+    display: flex;
+    justify-content: center;
+}
+
+canvas {
+    width: 100%;
+}
