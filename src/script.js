@@ -6,11 +6,14 @@ let player2Img = new Image();
 let avatarPlayerImg = new Image();
 let avatarPlayer2Img = new Image();
 let powerImg = new Image();
+let frezzaWins = new Image();
+let gokuWins = new Image();
 let energyStoreGoku = [];
 let energyStoreFrezza = [];
 let frames = 0;
 let frezzaAtack = false;
 let gokuAttack = false;
+let myReq;
 
 // Screen sizes
 context = document.querySelector("canvas").getContext("2d");
@@ -67,14 +70,8 @@ class EnergyBall {
   }
 
   draw() {
-    powerImg.src = "img/powerBall.png"
-    context.drawImage(
-      powerImg,
-      this.x,
-      this.y,
-      25,
-      25,
-    )
+    powerImg.src = "img/powerBall.png";
+    context.drawImage(powerImg, this.x, this.y, 25, 25);
   }
 
   update() {
@@ -133,7 +130,6 @@ controller2 = {
 };
 
 loop = function() {
-
   playerControl();
 
   player2Control();
@@ -210,7 +206,8 @@ loop = function() {
   frames += 1;
 
   // call update when the browser is ready to draw again
-  window.requestAnimationFrame(loop);
+  myReq = requestAnimationFrame(loop);
+  gameOver();
 };
 
 //Loop player 1 control
@@ -375,25 +372,43 @@ let drawPlayer1 = () => {
 
 //Player 2
 let drawPlayer2 = () => {
-    if (player2.x > player.x) {
-      player2Img.src = "img/Frezza.png";
-      context.drawImage(
-        player2Img,
-        player2.x,
-        player2.y,
-        player2.width,
-        player2.height
-      );
-    } else {
-      player2Img.src = "img/Frezza_reverse.png";
-      context.drawImage(
-        player2Img,
-        player2.x,
-        player2.y,
-        player2.width,
-        player2.height
-      );
+  if (player2.x > player.x) {
+    player2Img.src = "img/Frezza.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  } else {
+    player2Img.src = "img/Frezza_reverse.png";
+    context.drawImage(
+      player2Img,
+      player2.x,
+      player2.y,
+      player2.width,
+      player2.height
+    );
+  }
+};
+
+let gameOver = () => {
+  if (player.health === 0) {
+    frezzaWins.src = "img/FWins.jpg";
+    context.drawImage(frezzaWins, 185, 90, 635, 325);
+    // context.clearRect(185, 90, 635, 325);
+    if (frames % 40 === 0) {
+      cancelAnimationFrame(myReq);
     }
+  } else if (player2.health === 0) {
+    context.clearRect(185, 90, 635, 325);
+    gokuWins.src = "img/GWins.jpg";
+    context.drawImage(gokuWins, 185, 90, 635, 325);
+    if (frames % 40 === 0) {
+      cancelAnimationFrame(myReq);
+    }
+  }
 };
 
 window.addEventListener("keydown", controller.keyListener);
