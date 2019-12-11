@@ -67,7 +67,7 @@ class EnergyBall {
   }
 
   draw() {
-    powerImg.src = "../img/powerBall.png"
+    powerImg.src = "img/powerBall.png"
     context.drawImage(
       powerImg,
       this.x,
@@ -294,22 +294,22 @@ let player2Control = () => {
 
 //Map
 let map = () => {
-  backgroundImg.src = "../img/background.png";
+  backgroundImg.src = "img/background.png";
   context.drawImage(backgroundImg, 0, 0, 1000, 500);
   context.font = "15px Lucida Console";
   context.fillStyle = "black";
   context.fillText(`Goku health: ${player.health}`, 195, 110);
   context.fillText(`Player 2 health: ${player2.health}`, 670, 110);
-  avatarPlayerImg.src = "../img/Goku_Avatar.png";
+  avatarPlayerImg.src = "img/Goku_Avatar.png";
   context.drawImage(avatarPlayerImg, 220, 120, 50, 50);
-  avatarPlayer2Img.src = "../img/Frezza_Avatar.png";
+  avatarPlayer2Img.src = "img/Frezza_Avatar.png";
   context.drawImage(avatarPlayer2Img, 710, 120, 50, 50);
 };
 
 //Player 1
 let drawPlayer1 = () => {
   if (player.x < player2.x) {
-    playerImg.src = "../img/Goku.png";
+    playerImg.src = "img/Goku.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -318,7 +318,7 @@ let drawPlayer1 = () => {
       player.height
     );
   } else {
-    playerImg.src = "../img/Goku_revert.png";
+    playerImg.src = "img/Goku_revert.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -329,7 +329,7 @@ let drawPlayer1 = () => {
   }
 
   if (controller.power && player.x < player2.x) {
-    playerImg.src = "../img/Goku_power-right.png";
+    playerImg.src = "img/Goku_power-right.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -340,7 +340,7 @@ let drawPlayer1 = () => {
   }
 
   if (controller.power && player.x > player2.x) {
-    playerImg.src = "../img/Goku_power-left.png";
+    playerImg.src = "img/Goku_power-left.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -351,7 +351,7 @@ let drawPlayer1 = () => {
   }
 
   if (controller.right && player.x < player2.x) {
-    playerImg.src = "../img/Goku_right.png";
+    playerImg.src = "img/Goku_right.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -362,7 +362,7 @@ let drawPlayer1 = () => {
   }
 
   if (controller.left && player.x < player2.x) {
-    playerImg.src = "../img/Goku_left.png";
+    playerImg.src = "img/Goku_left.png";
     context.drawImage(
       playerImg,
       player.x,
@@ -376,7 +376,7 @@ let drawPlayer1 = () => {
 //Player 2
 let drawPlayer2 = () => {
     if (player2.x > player.x) {
-      player2Img.src = "../img/Frezza.png";
+      player2Img.src = "img/Frezza.png";
       context.drawImage(
         player2Img,
         player2.x,
@@ -385,7 +385,7 @@ let drawPlayer2 = () => {
         player2.height
       );
     } else {
-      player2Img.src = "../img/Frezza_reverse.png";
+      player2Img.src = "img/Frezza_reverse.png";
       context.drawImage(
         player2Img,
         player2.x,
