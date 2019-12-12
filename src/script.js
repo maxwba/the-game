@@ -11,9 +11,12 @@ let gokuWins = new Image();
 let energyStoreGoku = [];
 let energyStoreFrezza = [];
 let frames = 0;
+let music = new Audio('Frieza_theme.mp3');
 let frezzaAtack = false;
 let gokuAttack = false;
 let myReq;
+
+theme();
 
 // Screen sizes
 context = document.querySelector("canvas").getContext("2d");
@@ -22,6 +25,7 @@ context.canvas.width = 1000;
 let areaLeftX = 190;
 let areaRightX = 700;
 let areaDownY = 335;
+
 
 // Player 1 object
 player = {
@@ -130,6 +134,7 @@ controller2 = {
 };
 
 loop = function() {
+
   playerControl();
 
   player2Control();
@@ -487,6 +492,10 @@ let gameOver = () => {
     }
   }
 };
+
+function theme() {
+  return music.play()
+}
 
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keydown", controller2.keyListener);
