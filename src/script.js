@@ -1,4 +1,4 @@
-// Global variables
+/// Global variables
 let context, controller, player, loop, controller2, player2;
 let backgroundImg = new Image();
 let playerImg = new Image();
@@ -25,7 +25,7 @@ let areaDownY = 335;
 
 // Player 1 object
 player = {
-  height: 40,
+  height: 40,   
   jumping: true,
   width: 40,
   health: 100,
