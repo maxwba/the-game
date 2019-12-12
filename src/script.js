@@ -25,7 +25,6 @@ let areaDownY = 335;
 
 // Player 1 object
 player = {
-  stand: true,
   height: 40,
   jumping: true,
   width: 40,
@@ -38,7 +37,6 @@ player = {
 
 // Player 2 object
 player2 = {
-  stand: true,
   height: 45,
   jumping: true,
   width: 45,
@@ -316,7 +314,6 @@ let drawPlayer1 = () => {
       player.width,
       player.height
       );
-      player.stand = true;
   } else if (player.x > player2.x && !controller.right && !controller.left) {
     playerImg.src = "img/Goku_revert.png";
     context.drawImage(
@@ -326,11 +323,9 @@ let drawPlayer1 = () => {
       player.width,
       player.height
       );
-      player.stand = true;
     }
 
   if (controller.power && player.x < player2.x) {
-    player.stand = false;
     playerImg.src = "img/Goku_power-right.png";
     context.drawImage(
       playerImg,
@@ -340,7 +335,6 @@ let drawPlayer1 = () => {
       player.height
     );
   } else if (controller.power && player.x > player2.x) {
-    player.stand = false;
     playerImg.src = "img/Goku_power-left.png";
     context.drawImage(
       playerImg,
@@ -350,10 +344,6 @@ let drawPlayer1 = () => {
       player.height
     );
   }
-
-  // if (frames % 2 === 0) {
-  //   player.stand = true;
-  // }
   
   if (controller.right && player.x < player2.x) {
     playerImg.src = "img/Goku_right.png";
@@ -407,7 +397,6 @@ let drawPlayer2 = () => {
       player2.width,
       player2.height
     );
-    player2.stand = true;
   } else if (player2.x > player.x && !controller2.right && !controller2.left){
     player2Img.src = "img/Frezza.png";
     context.drawImage(
@@ -417,11 +406,9 @@ let drawPlayer2 = () => {
       player2.width,
       player2.height
     );
-    player2.stand = true
   }
 
   if (controller2.power && player2.x < player.x) {
-    player2.stand = false;
     player2Img.src = "img/Frezza_power-right.png";
     context.drawImage(
       player2Img,
@@ -431,7 +418,6 @@ let drawPlayer2 = () => {
       player2.height
     );
   } else if (controller2.power && player2.x > player.x) {
-    player2.stand = false;
     player2Img.src = "img/Frezza_power-left.png";
     context.drawImage(
       player2Img,
