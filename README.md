@@ -27,6 +27,8 @@ Desktop pc and recent web browsers, for canvas html5
 ### Installing
 
 Fork this repo, and access the index.html file.
+or
+Play here: https://maxwba.github.io/the-game/
 
 ```
 
