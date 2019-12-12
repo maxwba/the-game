@@ -11,12 +11,11 @@ let gokuWins = new Image();
 let energyStoreGoku = [];
 let energyStoreFrezza = [];
 let frames = 0;
-let music = new Audio('Frieza_theme.mp3');
+let music = new Audio("Frieza_theme.mp3");
+let finalMusic = new Audio('Final_theme.mp3');
 let frezzaAtack = false;
 let gokuAttack = false;
 let myReq;
-
-theme();
 
 // Screen sizes
 context = document.querySelector("canvas").getContext("2d");
@@ -26,10 +25,9 @@ let areaLeftX = 190;
 let areaRightX = 700;
 let areaDownY = 335;
 
-
 // Player 1 object
 player = {
-  height: 40,   
+  height: 40,
   jumping: true,
   width: 40,
   health: 100,
@@ -134,6 +132,13 @@ controller2 = {
 };
 
 loop = function() {
+  startGame();
+  gameOver();
+  myReq = requestAnimationFrame(loop);
+};
+
+let startGame = () => {
+  theme();
 
   playerControl();
 
@@ -209,10 +214,6 @@ loop = function() {
   });
 
   frames += 1;
-
-  // call update when the browser is ready to draw again
-  myReq = requestAnimationFrame(loop);
-  gameOver();
 };
 
 //Loop player 1 control
@@ -250,7 +251,7 @@ let playerControl = () => {
     // if player touch the right screen
     player.x = areaRightX;
   }
-  // Player 1 colison
+  // // Player 1 colison
   //   if (Math.floor(player.x) < Math.floor(player2.x + player2.width)&& player.y === player2.y) {
   //       player.x += player2.width * 0.30
   //       player2.x -= player.width * 0.30
@@ -292,9 +293,10 @@ let player2Control = () => {
     // if player 2 touch the right screen
     player2.x = areaRightX;
   }
+
 };
 
-//Map
+//Map draw
 let map = () => {
   backgroundImg.src = "img/background.png";
   context.drawImage(backgroundImg, 0, 0, 1000, 500);
@@ -308,8 +310,16 @@ let map = () => {
   context.drawImage(avatarPlayer2Img, 710, 120, 50, 50);
 };
 
-//Player 1
+//Call all player 1 logic position
 let drawPlayer1 = () => {
+  playerStand();
+
+  playerPower();
+
+  playerMove();
+};
+// Player position logic
+let playerStand = () => {
   if (player.x < player2.x && !controller.right && !controller.left) {
     playerImg.src = "img/Goku.png";
     context.drawImage(
@@ -318,7 +328,7 @@ let drawPlayer1 = () => {
       player.y,
       player.width,
       player.height
-      );
+    );
   } else if (player.x > player2.x && !controller.right && !controller.left) {
     playerImg.src = "img/Goku_revert.png";
     context.drawImage(
@@ -327,9 +337,10 @@ let drawPlayer1 = () => {
       player.y,
       player.width,
       player.height
-      );
-    }
-
+    );
+  }
+};
+let playerPower = () => {
   if (controller.power && player.x < player2.x) {
     playerImg.src = "img/Goku_power-right.png";
     context.drawImage(
@@ -349,7 +360,8 @@ let drawPlayer1 = () => {
       player.height
     );
   }
-  
+};
+let playerMove = () => {
   if (controller.right && player.x < player2.x) {
     playerImg.src = "img/Goku_right.png";
     context.drawImage(
@@ -391,8 +403,17 @@ let drawPlayer1 = () => {
   }
 };
 
-//Player 2
+//Call all player 2 logic position
 let drawPlayer2 = () => {
+
+  player2Stand();
+  player2Move();
+  player2Power();
+
+
+};
+// Player 2 position logic
+let player2Stand = () => {
   if (player2.x < player.x && !controller2.right && !controller2.left) {
     player2Img.src = "img/Frezza_reverse.png";
     context.drawImage(
@@ -402,7 +423,7 @@ let drawPlayer2 = () => {
       player2.width,
       player2.height
     );
-  } else if (player2.x > player.x && !controller2.right && !controller2.left){
+  } else if (player2.x > player.x && !controller2.right && !controller2.left) {
     player2Img.src = "img/Frezza.png";
     context.drawImage(
       player2Img,
@@ -412,7 +433,8 @@ let drawPlayer2 = () => {
       player2.height
     );
   }
-
+};
+let player2Power = () => {
   if (controller2.power && player2.x < player.x) {
     player2Img.src = "img/Frezza_power-right.png";
     context.drawImage(
@@ -432,7 +454,8 @@ let drawPlayer2 = () => {
       player2.height
     );
   }
-
+};
+let player2Move = () => {
   if (controller2.right && player2.x < player.x) {
     player2Img.src = "img/Frezza_right.png";
     context.drawImage(
@@ -472,30 +495,35 @@ let drawPlayer2 = () => {
       player2.height
     );
   }
-
 };
 
 let gameOver = () => {
-  if (player.health === 0) {
+  if (player.health <= 0) {
     frezzaWins.src = "img/FWins.jpg";
     context.drawImage(frezzaWins, 185, 90, 635, 325);
-    // context.clearRect(185, 90, 635, 325);
-    if (frames % 40 === 0) {
-      cancelAnimationFrame(myReq);
-    }
-  } else if (player2.health === 0) {
+  } else if (player2.health <= 0) {
     context.clearRect(185, 90, 635, 325);
     gokuWins.src = "img/GWins.jpg";
     context.drawImage(gokuWins, 185, 90, 635, 325);
-    if (frames % 40 === 0) {
-      cancelAnimationFrame(myReq);
-    }
+    // cancelAnimationFrame(myReq);
+    // // if (frames % 40 === 0) {
+    // //   context.clearRect(185, 90, 635, 325)
+    // // }
   }
 };
 
 function theme() {
-  return music.play()
+  if (player.health <= 0 || player2.health <= 0) {
+    music.pause();
+    finalMusic.play();
+  } else {
+    music.play();
+  }
 }
+
+let clearScreen = () => {
+  context.clearRect(185, 90, 635, 325);
+};
 
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keydown", controller2.keyListener);
