@@ -34,6 +34,6 @@ Fork this repo, and access the index.html file.
 
 * [Goku sprites](https://www.facebook.com/1485254224854008/photos/pb.1485254224854008.-2207520000../1505683009477796/?type=3&theater) - Facebook page
 
-## Authors
+## Author
 
 * **Maxwba** - *Initial work*
