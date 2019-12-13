@@ -8,11 +8,13 @@ let avatarPlayer2Img = new Image();
 let powerImg = new Image();
 let frezzaWins = new Image();
 let gokuWins = new Image();
+let startImg = new Image();
 let energyStoreGoku = [];
 let energyStoreFrezza = [];
 let frames = 0;
 let music = new Audio("Frieza_theme.mp3");
 let finalMusic = new Audio('Final_theme.mp3');
+let startMusic = new Audio('start.mp3')
 let frezzaAtack = false;
 let gokuAttack = false;
 let myReq;
@@ -87,6 +89,7 @@ controller = {
   left: false,
   right: false,
   up: false,
+  start: false,
   keyListener: function(event) {
     let key_state = event.type === "keydown";
 
@@ -102,8 +105,11 @@ controller = {
         break;
       case 82: //R key
         controller.power = key_state;
+        break;
+      case 13:
+        controller.start = true;
     }
-  }
+  } 
 };
 
 //Controler P2
@@ -132,9 +138,15 @@ controller2 = {
 };
 
 loop = function() {
-  startGame();
-  gameOver();
-  myReq = requestAnimationFrame(loop);
+
+  if (!controller.start) {
+    clearScreen();
+  }else{
+    startMusic.pause();
+    startGame();
+    gameOver();
+  }
+    myReq = requestAnimationFrame(loop);
 };
 
 let startGame = () => {
@@ -212,12 +224,12 @@ let startGame = () => {
       }
     }
   });
-
   frames += 1;
 };
 
 //Loop player 1 control
 let playerControl = () => {
+
   if (controller.up && player.jumping == false) {
     player.y_velocity -= 30;
     player.jumping = true;
@@ -522,7 +534,12 @@ function theme() {
 }
 
 let clearScreen = () => {
+  startMusic.play()
+  backgroundImg.src = "img/background.png";
+  context.drawImage(backgroundImg, 0, 0, 1000, 500);
   context.clearRect(185, 90, 635, 325);
+  startImg.src = "img/inicio.png"
+  context.drawImage(startImg,185,90, 635, 325)
 };
 
 window.addEventListener("keydown", controller.keyListener);
