@@ -517,10 +517,6 @@ let gameOver = () => {
     context.clearRect(185, 90, 635, 325);
     gokuWins.src = "img/GWins.jpg";
     context.drawImage(gokuWins, 185, 90, 635, 325);
-    // cancelAnimationFrame(myReq);
-    // // if (frames % 40 === 0) {
-    // //   context.clearRect(185, 90, 635, 325)
-    // // }
   }
 };
 
